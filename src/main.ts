@@ -1,7 +1,7 @@
 import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/styles";
 
-import { createApp } from "vue";
+import { createApp, VueElement } from "vue";
 import { createPinia } from "pinia";
 
 import App from "./App.vue";
