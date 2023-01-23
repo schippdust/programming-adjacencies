@@ -13,12 +13,12 @@ export class Department {
   createdAt: Date;
   modifiedAt: Date;
 
-  programTypes: ProgramType[] = []
-  programs: Program[] = []
-  spaces: Space[] = []
+  programTypes: ProgramType[] = [];
+  programs: Program[] = [];
+  spaces: Space[] = [];
 
-  name: string = ""
-  colorHex: string = "FFFFFF"
+  name: string = "";
+  colorHex: string = "FFFFFF";
 
   constructor() {
     this.uuid = uuidv4();
@@ -33,11 +33,11 @@ export class ProgramType {
   createdAt: Date;
   modifiedAt: Date;
 
-  programs: Program[] = []
-  spaces: Space[] = []
+  programs: Program[] = [];
+  spaces: Space[] = [];
 
-  name: string = ""
-  colorHex: string = "FFFFFF"
+  name: string = "";
+  colorHex: string = "FFFFFF";
 
   constructor() {
     this.uuid = uuidv4();
@@ -54,10 +54,10 @@ export class Program {
 
   department?: Department;
   programType?: ProgramType;
-  spaces: Space[] = []
+  spaces: Space[] = [];
 
-  name: string = ""
-  typicalArea: number = 100
+  name: string = "";
+  typicalArea: number = 100;
 
   constructor() {
     this.uuid = uuidv4();
