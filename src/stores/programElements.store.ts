@@ -31,22 +31,153 @@ export const useProgramElementStore = defineStore({
       typeOfElement: ProgramElement,
       quantity: number = 1
     ) {
+      const elementIds = [];
       if (typeOfElement == ProgramElement.Department) {
         for (let i = 0; i < quantity; i++) {
-          this.departments.push(new Department());
+          const newDepartment = new Department();
+          this.departments.push(newDepartment);
+          elementIds.push(newDepartment.uuid);
         }
       } else if (typeOfElement == ProgramElement.ProgramType) {
         for (let i = 0; i < quantity; i++) {
-          this.programTypes.push(new ProgramType());
+          const newProgramType = new ProgramType();
+          this.programTypes.push(newProgramType);
+          elementIds.push(newProgramType.uuid);
         }
       } else if (typeOfElement == ProgramElement.Program) {
         for (let i = 0; i < quantity; i++) {
-          this.programs.push(new Program());
+          const newProgram = new Program();
+          this.programs.push(newProgram);
+          elementIds.push(newProgram);
         }
       } else if (typeOfElement == ProgramElement.Space) {
         for (let i = 0; i < quantity; i++) {
-          this.spaces.push(new Space());
+          const newSpace = new Space();
+          this.spaces.push(newSpace);
+          elementIds.push(newSpace);
         }
+      }
+      return elementIds;
+    },
+    deleteProgramElements(
+      typeOfElement: ProgramElement,
+      elementIds: string | string[]
+    ) {
+      if (typeOfElement == ProgramElement.Department) {
+        const queryResults = this.queryDepartmentsByIds(elementIds);
+
+        const queryElements: Department[] = [];
+        if (queryResults == undefined) {
+          return;
+        } else if (Array.isArray(queryResults)) {
+          queryElements.concat(queryResults);
+        } else {
+          queryElements.push(queryResults);
+        }
+
+        this.departments.filter((department) => {
+          if (queryElements.includes(department)) {
+            department.programs.forEach((program) => {
+              program.department = undefined;
+              program.modifiedAt = new Date();
+            });
+            return false;
+          } else {
+            return true;
+          }
+        });
+      } else if (typeOfElement == ProgramElement.ProgramType) {
+        const queryResults = this.queryProgramTypesByIds(elementIds);
+
+        const queryElements: ProgramType[] = [];
+        if (queryResults == undefined) {
+          return;
+        } else if (Array.isArray(queryResults)) {
+          queryElements.concat(queryResults);
+        } else {
+          queryElements.push(queryResults);
+        }
+
+        this.programTypes.filter((programType) => {
+          if (queryElements.includes(programType)) {
+            programType.programs.forEach((program) => {
+              program.programType = undefined;
+              program.modifiedAt = new Date();
+            });
+            return false;
+          } else {
+            return true;
+          }
+        });
+      } else if (typeOfElement == ProgramElement.Program) {
+        const queryResults = this.queryProgramsByIds(elementIds);
+
+        const queryElements: Program[] = [];
+        if (queryResults == undefined) {
+          return;
+        } else if (Array.isArray(queryResults)) {
+          queryElements.concat(queryResults);
+        } else {
+          queryElements.push(queryResults);
+        }
+
+        this.programs.filter((program) => {
+          if (queryElements.includes(program)) {
+            if (program.department) {
+              const departmentPrograms = program.department.programs;
+              const indexOfProgram = departmentPrograms.indexOf(program);
+              if (indexOfProgram != -1) {
+                departmentPrograms.splice(indexOfProgram, 1);
+                program.department.modifiedAt = new Date();
+              }
+            }
+
+            if (program.programType) {
+              const programTypePrograms = program.programType.programs;
+              const indexOfProgram = programTypePrograms.indexOf(program);
+              if (indexOfProgram != -1) {
+                programTypePrograms.splice(indexOfProgram, 1);
+                program.programType.modifiedAt = new Date();
+              }
+            }
+
+            program.spaces.forEach((space) => {
+              space.program = undefined;
+              space.modifiedAt = new Date();
+            });
+
+            return false;
+          } else {
+            return true;
+          }
+        });
+      } else if (typeOfElement == ProgramElement.Space) {
+        const queryResults = this.querySpacesByIds(elementIds);
+
+        const queryElements: Space[] = [];
+        if (queryResults == undefined) {
+          return;
+        } else if (Array.isArray(queryResults)) {
+          queryElements.concat(queryResults);
+        } else {
+          queryElements.push(queryResults);
+        }
+
+        this.spaces.filter((space) => {
+          if (queryElements.includes(space)) {
+            if (space.program) {
+              const programSpaces = space.program.spaces;
+              const indexOfSpace = programSpaces.indexOf(space);
+              if (indexOfSpace != -1) {
+                programSpaces.splice(indexOfSpace, 1);
+                space.program.modifiedAt = new Date();
+              }
+            }
+            return false;
+          } else {
+            return true;
+          }
+        });
       }
     },
     queryDepartmentsByIds(ids: string | string[]) {
