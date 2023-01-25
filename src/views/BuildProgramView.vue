@@ -1,18 +1,28 @@
 <script setup lang="ts">
-import BuildingProgramModularInterface from "@/components/BuildingProgram/BuildingProgramModularInterface.vue";
 import { useUiStateStore } from "@/stores/uiState.store";
-import { createVuetify } from "vuetify/lib/framework.mjs";
+import { computed } from "vue";
+
+import BuildingProgramModularInterface from "@/components/BuildingProgram/BuildingProgramModularInterface.vue";
+
+import {
+  useWindowWidth,
+  useWindowHeight,
+  useDrawerWidth,
+  useMainAppBarHeight,
+} from "@/composables/resizeComposables";
+
+const { windowWidth } = useWindowWidth();
+const { windowHeight } = useWindowHeight();
+const { mainDrawerWidth } = useDrawerWidth();
+const { mainAppBarHeight } = useMainAppBarHeight();
+
+const workPaneHeight = computed(
+  () => windowHeight.value - mainAppBarHeight.value
+);
+const workPaneWidth = computed(() => windowWidth.value - mainDrawerWidth.value);
+
 const uiState = useUiStateStore();
 const iconFill = uiState.typicalIconFill;
-const mainAppBarElement = document.getElementById(uiState.mainAppBarId);
-let mainAppBarHeight = mainAppBarElement?.clientHeight;
-mainAppBarHeight = mainAppBarHeight ? mainAppBarHeight : 0;
-const workPaneHeight = window.innerHeight - mainAppBarHeight;
-
-const mainDrawerElement = document.getElementById(uiState.mainDrawerId);
-let mainDrawerWidth = mainDrawerElement?.clientWidth;
-mainDrawerWidth = mainDrawerWidth ? mainDrawerWidth : 0;
-const workPaneWidth = window.innerWidth - mainDrawerWidth;
 const splitScreen = uiState.programCreationSplitScreen;
 </script>
 

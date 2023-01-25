@@ -1,12 +1,5 @@
 import { defineStore, storeToRefs } from "pinia";
-
-// interface UiStateStore {
-//   typicalIconFill: string;
-
-//   //Program Creation UI Properties
-//   programCreationSplitScreen: Boolean;
-//   editingModeIconDims: number;
-// }
+import { mainAppBarId, mainDrawerId } from "@/composables/resizeComposables";
 
 export const useUiStateStore = defineStore({
   id: "uiStateStore",
@@ -14,10 +7,10 @@ export const useUiStateStore = defineStore({
     typicalIconFill: "#8a8a8a",
 
     //Main App Bar
-    mainAppBarId: "main-app-bar",
+    mainAppBarId: mainAppBarId,
 
     //Drawer
-    mainDrawerId: "main-drawer",
+    mainDrawerId: mainDrawerId,
 
     //Program Creation UI
     programCreationSplitScreen: true,
