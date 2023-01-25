@@ -1,8 +1,7 @@
 import throttle from "lodash.throttle";
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import { mainAppBarId, mainDrawerId } from "../stores/uiState.store";
 
-export const mainAppBarId = "main-app-bar";
-export const mainDrawerId = "main-drawer";
 const throttleMs = 100;
 
 export function useWindowWidth() {

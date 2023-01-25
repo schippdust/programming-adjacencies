@@ -1,5 +1,7 @@
 import { defineStore, storeToRefs } from "pinia";
-import { mainAppBarId, mainDrawerId } from "@/composables/resizeComposables";
+
+export const mainAppBarId = "main-app-bar";
+export const mainDrawerId = "main-drawer";
 
 export const useUiStateStore = defineStore({
   id: "uiStateStore",

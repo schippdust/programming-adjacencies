@@ -36,7 +36,8 @@ const splitScreen = uiState.programCreationSplitScreen;
         <div
           style="position: fixed; background-color: lightsalmon"
           :style="{
-            width: workPaneWidth / 2 + 'px',
+            //the -8 is sloppy, it's due to the scroll bar and avoiding overlap between the two
+            width: workPaneWidth / 2 - 8 + 'px', 
             height: workPaneHeight + 'px',
           }"
         >
@@ -45,7 +46,8 @@ const splitScreen = uiState.programCreationSplitScreen;
         <div
           style="position: fixed; right: 0%; background-color: lightgreen"
           :style="{
-            width: workPaneWidth / 2 + 'px',
+            //the -8 is sloppy, it's due to the scroll bar and avoiding overlap between the two
+            width: workPaneWidth / 2 - 8 + 'px',
             height: workPaneHeight + 'px',
           }"
         >
