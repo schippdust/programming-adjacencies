@@ -17,3 +17,13 @@ const uiState = useUiStateStore();
     </v-main>
   </v-layout>
 </template>
+
+<style>
+.pointer {
+  cursor: pointer;
+}
+.pointer:hover {
+  background-color: #f5f5f5;
+  transition: 0.2s;
+}
+</style>

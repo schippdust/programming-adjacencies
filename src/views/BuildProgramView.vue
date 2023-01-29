@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useUiStateStore } from "@/stores/uiState.store";
 import { computed } from "vue";
+import { storeToRefs } from "pinia";
 
 import BuildingProgramModularInterface from "@/components/BuildingProgram/BuildingProgramModularInterface.vue";
 
@@ -10,7 +11,6 @@ import {
   useDrawerWidth,
   useMainAppBarHeight,
 } from "@/composables/resizeComposables";
-
 const { windowWidth } = useWindowWidth();
 const { windowHeight } = useWindowHeight();
 const { mainDrawerWidth } = useDrawerWidth();
@@ -22,13 +22,12 @@ const workPaneHeight = computed(
 const workPaneWidth = computed(() => windowWidth.value - mainDrawerWidth.value);
 
 const uiState = useUiStateStore();
-const iconFill = uiState.typicalIconFill;
-const splitScreen = uiState.programCreationSplitScreen;
+const { typicalIconFill, programCreationSplitScreen } = storeToRefs(uiState);
 </script>
 
 <template>
   <div>
-    <div v-if="splitScreen">
+    <div>
       <div
         style="position: fixed; display: inline; background-color: lightblue"
         :style="{ height: workPaneHeight + 'px', width: workPaneWidth + 'px' }"
@@ -36,8 +35,10 @@ const splitScreen = uiState.programCreationSplitScreen;
         <div
           style="position: fixed; background-color: lightsalmon"
           :style="{
-            //the -8 is sloppy, it's due to the scroll bar and avoiding overlap between the two
-            width: workPaneWidth / 2 - 8 + 'px', 
+            //the -8 / 16 is sloppy, it's due to the scroll bar and avoiding overlap between the two
+            width: programCreationSplitScreen
+              ? workPaneWidth / 2 - 8 + 'px'
+              : workPaneWidth - 16 + 'px',
             height: workPaneHeight + 'px',
           }"
         >
@@ -45,26 +46,11 @@ const splitScreen = uiState.programCreationSplitScreen;
         </div>
         <div
           style="position: fixed; right: 0%; background-color: lightgreen"
+          v-if="programCreationSplitScreen"
           :style="{
             //the -8 is sloppy, it's due to the scroll bar and avoiding overlap between the two
             width: workPaneWidth / 2 - 8 + 'px',
             height: workPaneHeight + 'px',
-          }"
-        >
-          <BuildingProgramModularInterface />
-        </div>
-      </div>
-    </div>
-    <div v-if="!splitScreen">
-      <div
-        style="position: fixed; background-color: lightblue"
-        :style="{ height: workPaneHeight + 'px', width: workPaneWidth + 'px' }"
-      >
-        <div
-          style="position: fixed; background-color: lightseagreen"
-          :style="{
-            height: workPaneHeight + 'px',
-            width: workPaneWidth + 'px',
           }"
         >
           <BuildingProgramModularInterface />
