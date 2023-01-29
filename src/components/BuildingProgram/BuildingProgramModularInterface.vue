@@ -58,7 +58,9 @@ function activateView(viewType: CurrentViewType) {
           >Departments View</v-tooltip
         >
       </div>
+
       <v-divider></v-divider>
+
       <div
         class="pa-2 pt-1 pointer rounded"
         style="width: 100%; height: 33%"
@@ -74,7 +76,9 @@ function activateView(viewType: CurrentViewType) {
           >Program Types View</v-tooltip
         >
       </div>
+
       <v-divider></v-divider>
+
       <div
         class="pa-2 pt-1 pointer rounded"
         style="width: 100%; height: 33%"
@@ -91,7 +95,8 @@ function activateView(viewType: CurrentViewType) {
         >
       </div>
     </div>
-    <div style="position: absolute; left: 8px; top: 110px">
+
+    <div class="split-screen-control-position">
       <v-btn
         class="px-n5 split-screen-control"
         size="x-small"
@@ -123,5 +128,10 @@ function activateView(viewType: CurrentViewType) {
   min-width: 30px;
   height: 30px;
   min-height: 30px;
+}
+.split-screen-control-position {
+  position: absolute;
+  left: 8px;
+  top: 110px;
 }
 </style>
