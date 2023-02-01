@@ -1,6 +1,12 @@
-# typescript-space-planner
+# Programming and Adjacency Interactive Data Tool
 
-This template should help get you started developing with Vue 3 in Vite.
+This tool is still in early phases of development and is not entirely stable as of yet!
+
+This simple client side web application has been developed as an open source teaching tool for a course about architectural programming taught through the College of Design at the University of Minnesota.  It has also been developed to be robust enough to be used by practicing architects as an interface that can be used to create more structured data than a typical Excel document can support, and manage complex adjacency relationships.
+
+This platform is open source and can be viewed as a starting point for firms interested in further developing this interface and integrating it into their existing processes and approaches.
+
+If you would like to contribute to the development of the open source component of this project, please create an issue and pull request for your contributions.  The rest of this README is conventional boilerplate for a Vue 3 / TypeScript project, and uses NPM to manage its dependencies.
 
 ## Recommended IDE Setup
 
