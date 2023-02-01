@@ -54,6 +54,14 @@ function setDepartmentName(department: Department, name: string) {
     ProgramElement.Department
   );
 }
+
+function deleteDepartment(department: Department) {
+  console.log("deleting department", department);
+  programElementStore.deleteProgramElements(
+    ProgramElement.Department,
+    department.uuid
+  );
+}
 </script>
 
 <template>
@@ -104,6 +112,18 @@ function setDepartmentName(department: Department, name: string) {
                           setDepartmentName(department, $event)
                         "
                       ></v-text-field>
+                    </v-col>
+                    <v-col class="v-col-1">
+                      <v-btn
+                        color="red-darken-4"
+                        variant="plain"
+                        @click="deleteDepartment(department)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                        <v-tooltip activator="parent" location="right">
+                          Delete
+                        </v-tooltip>
+                      </v-btn>
                     </v-col>
                   </v-row>
                   <!-- <v-divider></v-divider> -->
