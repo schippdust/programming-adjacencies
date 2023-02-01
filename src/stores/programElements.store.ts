@@ -105,18 +105,16 @@ export const useProgramElementStore = defineStore({
     ): void {
       if (typeOfElement == ProgramElement.Department) {
         const queryResults = this.queryDepartmentsByIds(elementIds);
-
-        const queryElements: Department[] = [];
+        const queryIds: string[] = [];
         if (queryResults == undefined) {
           return;
         } else if (Array.isArray(queryResults)) {
-          queryElements.concat(queryResults);
-        } else {
-          queryElements.push(queryResults);
+          queryResults.forEach((element) => {
+            queryIds.push(element.uuid);
+          });
         }
-
-        this.departments.filter((department) => {
-          if (queryElements.includes(department)) {
+        this.departments = this.departments.filter((department) => {
+          if (queryIds.includes(department.uuid)) {
             department.programs.forEach((program) => {
               program.department = undefined;
               program.modifiedAt = new Date();
@@ -128,18 +126,16 @@ export const useProgramElementStore = defineStore({
         });
       } else if (typeOfElement == ProgramElement.ProgramType) {
         const queryResults = this.queryProgramTypesByIds(elementIds);
-
-        const queryElements: ProgramType[] = [];
+        const queryIds: string[] = [];
         if (queryResults == undefined) {
           return;
         } else if (Array.isArray(queryResults)) {
-          queryElements.concat(queryResults);
-        } else {
-          queryElements.push(queryResults);
+          queryResults.forEach((element) => {
+            queryIds.push(element.uuid);
+          });
         }
-
-        this.programTypes.filter((programType) => {
-          if (queryElements.includes(programType)) {
+        this.programTypes = this.programTypes.filter((programType) => {
+          if (queryIds.includes(programType.uuid)) {
             programType.programs.forEach((program) => {
               program.programType = undefined;
               program.modifiedAt = new Date();
@@ -151,18 +147,17 @@ export const useProgramElementStore = defineStore({
         });
       } else if (typeOfElement == ProgramElement.Program) {
         const queryResults = this.queryProgramsByIds(elementIds);
-
-        const queryElements: Program[] = [];
+        const queryIds: string[] = [];
         if (queryResults == undefined) {
           return;
         } else if (Array.isArray(queryResults)) {
-          queryElements.concat(queryResults);
-        } else {
-          queryElements.push(queryResults);
+          queryResults.forEach((element) => {
+            queryIds.push(element.uuid);
+          });
         }
 
-        this.programs.filter((program) => {
-          if (queryElements.includes(program)) {
+        this.programs = this.programs.filter((program) => {
+          if (queryIds.includes(program.uuid)) {
             if (program.department) {
               const departmentPrograms = program.department.programs;
               const indexOfProgram = departmentPrograms.indexOf(program);
@@ -193,18 +188,17 @@ export const useProgramElementStore = defineStore({
         });
       } else if (typeOfElement == ProgramElement.Space) {
         const queryResults = this.querySpacesByIds(elementIds);
-
-        const queryElements: Space[] = [];
+        const queryIds: string[] = [];
         if (queryResults == undefined) {
           return;
         } else if (Array.isArray(queryResults)) {
-          queryElements.concat(queryResults);
-        } else {
-          queryElements.push(queryResults);
+          queryResults.forEach((element) => {
+            queryIds.push(element.uuid);
+          });
         }
 
-        this.spaces.filter((space) => {
-          if (queryElements.includes(space)) {
+        this.spaces = this.spaces.filter((space) => {
+          if (queryIds.includes(space.uuid)) {
             if (space.program) {
               const programSpaces = space.program.spaces;
               const indexOfSpace = programSpaces.indexOf(space);
