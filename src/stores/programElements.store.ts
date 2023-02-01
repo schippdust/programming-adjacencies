@@ -1,3 +1,4 @@
+import { assign } from "lodash";
 import { defineStore, storeToRefs } from "pinia";
 
 import {
@@ -27,11 +28,50 @@ export const useProgramElementStore = defineStore({
     } as ProgramElementStoreRootState),
 
   actions: {
+    getAllDepartments(): Array<Department> {
+      return this.departments;
+    },
+    getAllProgramTypes(): Array<ProgramType> {
+      return this.programTypes;
+    },
+    getAllPrograms(): Array<Program> {
+      return this.programs;
+    },
+    getAllSpaces(): Array<Space> {
+      return this.spaces;
+    },
+
+    setElementColor(
+      uuid: string,
+      color: string,
+      elementType: ProgramElement
+    ): void {
+      if (elementType == ProgramElement.Department) {
+        this.queryDepartmentsByIds(uuid)?.forEach((department) => {
+          department.colorHex = color;
+        });
+      } else if (elementType == ProgramElement.ProgramType) {
+        this.queryProgramTypesByIds(uuid)?.forEach((programType) => {
+          programType.colorHex = color;
+        });
+      }
+    },
+    setElementName(
+      uuid: string,
+      name: string,
+      elementType: ProgramElement
+    ): void {
+      if (elementType == ProgramElement.Department) {
+        this.queryDepartmentsByIds(uuid)?.forEach((department) => {
+          department.name = name;
+        });
+      }
+    },
     createNewProgramElements(
       typeOfElement: ProgramElement,
       quantity: number = 1
-    ) {
-      const elementIds = [];
+    ): Array<string> {
+      const elementIds: Array<string> = [];
       if (typeOfElement == ProgramElement.Department) {
         for (let i = 0; i < quantity; i++) {
           const newDepartment = new Department();
@@ -48,13 +88,13 @@ export const useProgramElementStore = defineStore({
         for (let i = 0; i < quantity; i++) {
           const newProgram = new Program();
           this.programs.push(newProgram);
-          elementIds.push(newProgram);
+          elementIds.push(newProgram.uuid);
         }
       } else if (typeOfElement == ProgramElement.Space) {
         for (let i = 0; i < quantity; i++) {
           const newSpace = new Space();
           this.spaces.push(newSpace);
-          elementIds.push(newSpace);
+          elementIds.push(newSpace.uuid);
         }
       }
       return elementIds;
@@ -62,7 +102,7 @@ export const useProgramElementStore = defineStore({
     deleteProgramElements(
       typeOfElement: ProgramElement,
       elementIds: string | string[]
-    ) {
+    ): void {
       if (typeOfElement == ProgramElement.Department) {
         const queryResults = this.queryDepartmentsByIds(elementIds);
 
@@ -180,23 +220,28 @@ export const useProgramElementStore = defineStore({
         });
       }
     },
-    queryDepartmentsByIds(ids: string | string[]) {
+    queryDepartmentsByIds(
+      ids: string | string[]
+    ): Array<Department> | undefined {
       if (!Array.isArray(ids)) {
         ids = [ids];
       }
       const filterResults = this.departments.filter((el) => {
         return ids.includes(el.uuid);
       });
-      if (filterResults.length > 1) {
+      if (filterResults.length > 0) {
         return filterResults;
       }
-      if (filterResults.length == 1) {
-        return filterResults[0];
-      } else {
+      // if (filterResults.length == 1) {
+      //   return filterResults[0];
+      // }
+      else {
         return undefined;
       }
     },
-    queryProgramTypesByIds(ids: string | string[]) {
+    queryProgramTypesByIds(
+      ids: string | string[]
+    ): Array<ProgramType> | undefined {
       if (!Array.isArray(ids)) {
         ids = [ids];
       }
@@ -206,13 +251,14 @@ export const useProgramElementStore = defineStore({
       if (filterResults.length > 1) {
         return filterResults;
       }
-      if (filterResults.length == 1) {
-        return filterResults[0];
-      } else {
+      // if (filterResults.length == 1) {
+      //   return filterResults[0];
+      // }
+      else {
         return undefined;
       }
     },
-    queryProgramsByIds(ids: string | string[]) {
+    queryProgramsByIds(ids: string | string[]): Array<Program> | undefined {
       if (!Array.isArray(ids)) {
         ids = [ids];
       }
@@ -222,13 +268,14 @@ export const useProgramElementStore = defineStore({
       if (filterResults.length > 1) {
         return filterResults;
       }
-      if (filterResults.length == 1) {
-        return filterResults[0];
-      } else {
+      // if (filterResults.length == 1) {
+      //   return filterResults[0];
+      // }
+      else {
         return undefined;
       }
     },
-    querySpacesByIds(ids: string | string[]) {
+    querySpacesByIds(ids: string | string[]): Array<Space> | undefined {
       if (!Array.isArray(ids)) {
         ids = [ids];
       }
@@ -238,9 +285,10 @@ export const useProgramElementStore = defineStore({
       if (filterResults.length > 1) {
         return filterResults;
       }
-      if (filterResults.length == 1) {
-        return filterResults[0];
-      } else {
+      // if (filterResults.length == 1) {
+      //   return filterResults[0];
+      // }
+      else {
         return undefined;
       }
     },

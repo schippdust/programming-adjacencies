@@ -1,35 +1,34 @@
 <script setup lang="ts">
-import DepartmentIcon from "@/components/icons/DepartmentIcon.vue";
-import TypeIcon from "@/components/icons/TypeIcon.vue";
-import ProgramIcon from "@/components/icons/ProgramIcon.vue";
-// import SpaceIcon from "../components/icons/SpaceIcon.vue";
+import { ref, computed } from "vue";
+import { useDisplay } from "vuetify/lib/framework.mjs";
+
 import { useUiStateStore } from "@/stores/uiState.store";
-import { ref } from "vue";
+
 import BuildDepartments from "@/components/BuildingProgram/BuildDepartments.vue";
 import BuildPrograms from "@/components/BuildingProgram/BuildPrograms.vue";
 import BuildTypes from "@/components/BuildingProgram/BuildTypes.vue";
+
+import DepartmentIcon from "@/components/icons/DepartmentIcon.vue";
+import TypeIcon from "@/components/icons/TypeIcon.vue";
+import ProgramIcon from "@/components/icons/ProgramIcon.vue";
+
 enum CurrentViewType {
   DepartmentView,
   TypeView,
   ProgramView,
 }
-
-// let currentViewType: CurrentViewType = CurrentViewType.DepartmentView;
 const currentViewType = ref(CurrentViewType.DepartmentView);
+
 const uiStore = useUiStateStore();
 const toggleSplitScreen = function () {
-  console.log("calling toggle split screen");
   uiStore.toggleSplitScreen();
 };
-// function doSomething(message: string) {
-//   console.log("do something " + message);
-// }
 function activateView(viewType: CurrentViewType) {
-  console.log("changing view type ", viewType);
   if (currentViewType.value != viewType) {
     currentViewType.value = viewType;
   }
 }
+const { xlAndUp } = useDisplay();
 </script>
 
 <template>
@@ -96,7 +95,7 @@ function activateView(viewType: CurrentViewType) {
       </div>
     </div>
 
-    <div class="split-screen-control-position">
+    <div class="split-screen-control-position" v-if="xlAndUp">
       <v-btn
         class="px-n5 split-screen-control"
         size="x-small"

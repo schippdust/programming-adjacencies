@@ -18,8 +18,10 @@ export class Department {
   programs: Program[] = [];
   spaces: Space[] = []; //calculated
 
-  name: string = "";
-  colorHex: string = "FFFFFF";
+  name: string = "Department";
+  colorHex: string = "#B0B0B0";
+
+  colorMenuOpen: boolean = false;
 
   constructor() {
     this.uuid = uuidv4();
@@ -27,7 +29,16 @@ export class Department {
     this.modifiedAt = new Date();
   }
 
-  addPrograms(programIds: string | string[]) {
+  static fromText(text: string): Department {
+    //not yet implemented
+    return new Department();
+  }
+
+  toText(): string {
+    return "not yet implemented";
+  }
+
+  addPrograms(programIds: string | string[]): void {
     const store = useProgramElementStore();
     const queryResults = store.queryProgramsByIds(programIds);
 
@@ -55,7 +66,7 @@ export class Department {
     }
   }
 
-  removePrograms(programIds: string | string[]) {
+  removePrograms(programIds: string | string[]): void {
     const store = useProgramElementStore();
     const queryResults = store.queryProgramsByIds(programIds);
 
@@ -116,7 +127,16 @@ export class ProgramType {
     this.modifiedAt = new Date();
   }
 
-  addPrograms(programIds: string | string[]) {
+  static fromText(text: string): ProgramType {
+    //not yet implemented
+    return new ProgramType();
+  }
+
+  toText(): string {
+    return "not yet implemented";
+  }
+
+  addPrograms(programIds: string | string[]): void {
     const store = useProgramElementStore();
     const queryResults = store.queryProgramsByIds(programIds);
 
@@ -144,7 +164,7 @@ export class ProgramType {
     }
   }
 
-  removePrograms(programIds: string | string[]) {
+  removePrograms(programIds: string | string[]): void {
     const store = useProgramElementStore();
     const queryResults = store.queryProgramsByIds(programIds);
 
@@ -209,55 +229,60 @@ export class Program {
     this.spaces = [new Space()];
   }
 
-  setDepartment(departmentId: string) {
-    let department: Department;
+  static fromText(text: string): Program {
+    //not yet implemented
+    return new Program();
+  }
+
+  toText(): string {
+    return "not yet implemented";
+  }
+
+  setDepartment(departmentId: string): void {
+    let departments: Department[];
     const store = useProgramElementStore();
     const queryResults = store.queryDepartmentsByIds(departmentId);
 
     if (queryResults == undefined) {
       return;
-    } else if (Array.isArray(queryResults)) {
-      return; //this shouldn't be possible would indicate an error
     } else {
-      department = queryResults;
+      departments = queryResults;
     }
 
-    if (this.department != department) {
-      this.department = department;
+    if (this.department != departments[0]) {
+      this.department = departments[0];
       this.modifiedAt = new Date();
     }
 
-    if (!department.programs.includes(this)) {
-      department.programs.push(this);
-      department.modifiedAt = new Date();
+    if (!departments[0].programs.includes(this)) {
+      departments[0].programs.push(this);
+      departments[0].modifiedAt = new Date();
     }
   }
 
-  setProgramType(programTypeId: string) {
-    let programType: ProgramType;
+  setProgramType(programTypeId: string): void {
+    let programTypes: ProgramType[];
     const store = useProgramElementStore();
     const queryResults = store.queryProgramTypesByIds(programTypeId);
 
     if (queryResults == undefined) {
       return;
-    } else if (Array.isArray(queryResults)) {
-      return; //this shouldn't be possible and would indicate an error
     } else {
-      programType = queryResults;
+      programTypes = queryResults;
     }
 
-    if (this.programType != programType) {
-      this.programType = programType;
+    if (this.programType != programTypes[0]) {
+      this.programType = programTypes[0];
       this.modifiedAt = new Date();
     }
 
-    if (!programType.programs.includes(this)) {
-      programType.programs.push(this);
-      programType.modifiedAt = new Date();
+    if (!programTypes[0].programs.includes(this)) {
+      programTypes[0].programs.push(this);
+      programTypes[0].modifiedAt = new Date();
     }
   }
 
-  addSpaces(spaceIds: string | string[]) {
+  addSpaces(spaceIds: string | string[]): void {
     const store = useProgramElementStore();
     const queryResults = store.querySpacesByIds(spaceIds);
 
@@ -310,17 +335,50 @@ export class Space {
     this.spaceNumber = spaceNumber;
   }
 
-  setAreaTarget(area: number) {
+  static fromText(text: string): Space {
+    //not yet implemented
+    return new Space();
+  }
+
+  toText(): string {
+    return "not yet implemented";
+  }
+
+  getAreaTarget(): number {
     if (this.areaOverride == undefined) {
-      this.area = area;
+      return this.area;
+    } else {
+      return this.areaOverride;
     }
   }
 
-  setAreaOverride(areaOverride: number | boolean) {
+  setAreaOverride(areaOverride: number | boolean): void {
     if (areaOverride > 0 && typeof areaOverride == "number") {
       this.areaOverride = areaOverride;
     } else {
       this.areaOverride = undefined;
+    }
+  }
+
+  setProgram(programId: string): void {
+    let programs: Program[];
+    const store = useProgramElementStore();
+    const queryResults = store.queryProgramsByIds(programId);
+
+    if (queryResults == undefined) {
+      return;
+    } else {
+      programs = queryResults;
+    }
+
+    if (this.program != programs[0]) {
+      this.program = programs[0];
+      this.modifiedAt = new Date();
+    }
+
+    if (!programs[0].spaces.includes(this)) {
+      programs[0].spaces.push(this);
+      programs[0].modifiedAt = new Date();
     }
   }
 }
