@@ -37,7 +37,11 @@ const { xlAndUp } = useDisplay();
         :style="{ height: workPaneHeight + 'px', width: workPaneWidth + 'px' }"
       >
         <div
-          style="position: fixed; border-right: solid #bdbdbd 1px"
+          style="
+            position: fixed;
+            border-right: solid #bdbdbd 1px;
+            overflow: scroll;
+          "
           :style="{
             //the -8 / 16 is sloppy, it's due to the scroll bar and avoiding overlap between the two
             width:
@@ -50,7 +54,7 @@ const { xlAndUp } = useDisplay();
           <BuildingProgramModularInterface />
         </div>
         <div
-          style="position: fixed; right: 0%"
+          style="position: fixed; right: 0%; overflow: scroll"
           v-if="programCreationSplitScreen && xlAndUp"
           :style="{
             //the -8 is sloppy, it's due to the scroll bar and avoiding overlap between the two

@@ -1,5 +1,4 @@
-import { assign } from "lodash";
-import { defineStore, storeToRefs } from "pinia";
+import { defineStore } from "pinia";
 
 import {
   Department,
@@ -64,6 +63,14 @@ export const useProgramElementStore = defineStore({
       if (elementType == ProgramElement.Department) {
         this.queryDepartmentsByIds(uuid)?.forEach((department) => {
           department.name = name;
+        });
+      } else if (elementType == ProgramElement.ProgramType) {
+        this.queryProgramTypesByIds(uuid)?.forEach((programType) => {
+          programType.name = name;
+        });
+      } else if (elementType == ProgramElement.Program) {
+        this.queryProgramsByIds(uuid)?.forEach((program) => {
+          program.name = name;
         });
       }
     },
@@ -215,13 +222,13 @@ export const useProgramElementStore = defineStore({
       }
     },
     queryDepartmentsByIds(
-      ids: string | string[]
+      uuids: string | string[]
     ): Array<Department> | undefined {
-      if (!Array.isArray(ids)) {
-        ids = [ids];
+      if (!Array.isArray(uuids)) {
+        uuids = [uuids];
       }
       const filterResults = this.departments.filter((el) => {
-        return ids.includes(el.uuid);
+        return uuids.includes(el.uuid);
       });
       if (filterResults.length > 0) {
         return filterResults;
@@ -234,21 +241,17 @@ export const useProgramElementStore = defineStore({
       }
     },
     queryProgramTypesByIds(
-      ids: string | string[]
+      uuids: string | string[]
     ): Array<ProgramType> | undefined {
-      if (!Array.isArray(ids)) {
-        ids = [ids];
+      if (!Array.isArray(uuids)) {
+        uuids = [uuids];
       }
       const filterResults = this.programTypes.filter((el) => {
-        return ids.includes(el.uuid);
+        return uuids.includes(el.uuid);
       });
-      if (filterResults.length > 1) {
+      if (filterResults.length > 0) {
         return filterResults;
-      }
-      // if (filterResults.length == 1) {
-      //   return filterResults[0];
-      // }
-      else {
+      } else {
         return undefined;
       }
     },
@@ -259,13 +262,9 @@ export const useProgramElementStore = defineStore({
       const filterResults = this.programs.filter((el) => {
         return ids.includes(el.uuid);
       });
-      if (filterResults.length > 1) {
+      if (filterResults.length > 0) {
         return filterResults;
-      }
-      // if (filterResults.length == 1) {
-      //   return filterResults[0];
-      // }
-      else {
+      } else {
         return undefined;
       }
     },

@@ -66,8 +66,12 @@ function deleteDepartment(department: Department) {
 
 <template>
   <div>
-    <v-container class="mt-1">
-      <v-row v-for="department in departments" :key="department.uuid">
+    <v-container class="mt-1" style="position: absolute; overflow-y: hidden">
+      <v-row
+        v-for="department in departments"
+        :key="department.uuid"
+        class="pl-12 pr-3"
+      >
         <!-- element that describes the graphics and data for the row -->
 
         <v-col class="department-data-row elevation-2 mb-5">
@@ -187,7 +191,7 @@ function deleteDepartment(department: Department) {
           </v-container>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row class="pl-9">
         <v-col>
           <v-btn
             icon

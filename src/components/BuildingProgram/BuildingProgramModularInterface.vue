@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 
 import { useUiStateStore } from "@/stores/uiState.store";
@@ -32,7 +32,7 @@ const { xlAndUp } = useDisplay();
 </script>
 
 <template>
-  <div class="pr-10 pl-14">
+  <div>
     <BuildDepartments
       v-if="currentViewType == CurrentViewType.DepartmentView"
     ></BuildDepartments>
@@ -115,9 +115,9 @@ const { xlAndUp } = useDisplay();
 
 <style scoped>
 .view-type-picker {
-  position: absolute;
-  left: 8px;
-  top: 6px;
+  position: fixed;
+  margin-left: 8px;
+  margin-top: 6px;
   width: 30px;
   height: 90px;
   background-color: white;
@@ -129,8 +129,8 @@ const { xlAndUp } = useDisplay();
   min-height: 30px;
 }
 .split-screen-control-position {
-  position: absolute;
-  left: 8px;
-  top: 110px;
+  position: fixed;
+  margin-left: 8px;
+  margin-top: 110px;
 }
 </style>

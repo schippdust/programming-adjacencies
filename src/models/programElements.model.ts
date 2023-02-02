@@ -119,7 +119,7 @@ export class ProgramType {
   spaces: Space[] = []; //calculated
 
   name: string = "";
-  colorHex: string = "FFFFFF";
+  colorHex: string = "#B0B0B0";
 
   constructor() {
     this.uuid = uuidv4();
