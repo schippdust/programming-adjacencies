@@ -232,11 +232,7 @@ export const useProgramElementStore = defineStore({
       });
       if (filterResults.length > 0) {
         return filterResults;
-      }
-      // if (filterResults.length == 1) {
-      //   return filterResults[0];
-      // }
-      else {
+      } else {
         return undefined;
       }
     },
@@ -277,11 +273,7 @@ export const useProgramElementStore = defineStore({
       });
       if (filterResults.length > 1) {
         return filterResults;
-      }
-      // if (filterResults.length == 1) {
-      //   return filterResults[0];
-      // }
-      else {
+      } else {
         return undefined;
       }
     },

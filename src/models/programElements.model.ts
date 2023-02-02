@@ -18,7 +18,7 @@ export class Department {
   programs: Program[] = [];
   spaces: Space[] = []; //calculated
 
-  name: string = "Department";
+  name: string = "";
   colorHex: string = "#B0B0B0";
 
   colorMenuOpen: boolean = false;
