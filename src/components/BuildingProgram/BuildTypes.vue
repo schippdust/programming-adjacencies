@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 
-import { useProgramElementStore } from "@/stores/programElements.store";
+import { useProgramElementStore } from "@/stores/programElementsStore";
 
-import { ProgramType, ProgramElement } from "@/models/programElements.model";
+import { ProgramType, ProgramElement } from "@/models/programElements";
 
 const programElementStore = useProgramElementStore();
 const { programTypes } = storeToRefs(programElementStore);
@@ -61,6 +61,9 @@ function deleteProgramType(programType: ProgramType) {
 <template>
   <div>
     <v-container class="mt-1" style="position: absolute; overflow-y: hidden">
+      <v-row class="pl-12 pr-3 mb-4">
+        <v-col class="text-h5"> Program Types </v-col>
+      </v-row>
       <v-row
         v-for="programType in programTypes"
         :key="programType.uuid"
@@ -190,7 +193,8 @@ function deleteProgramType(programType: ProgramType) {
       <v-row class="pl-9">
         <v-col>
           <v-btn
-            icon
+            color="light-green"
+            size="xsmall"
             @click="
               programElementStore.createNewProgramElements(
                 ProgramElement.ProgramType,
@@ -198,7 +202,7 @@ function deleteProgramType(programType: ProgramType) {
               )
             "
           >
-            <v-icon color="black">mdi-plus</v-icon>
+            <v-icon size="x-large" color="white">mdi-plus</v-icon>
             <v-tooltip activator="parent" location="right"
               >Add New Program Type</v-tooltip
             >

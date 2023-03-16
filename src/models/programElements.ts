@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { useProgramElementStore } from "@/stores/programElements.store";
+import { useProgramElementStore } from "@/stores/programElementsStore";
 
 export enum ProgramElement {
   Department,
@@ -95,6 +95,10 @@ export class Department {
     if (matchCount > 0) {
       this.modifiedAt = new Date();
     }
+  }
+
+  modified(): void {
+    this.modifiedAt = new Date();
   }
 
   // recalculateAssociations() {
@@ -195,6 +199,10 @@ export class ProgramType {
     }
   }
 
+  modified(): void {
+    this.modifiedAt = new Date();
+  }
+
   // recalculateAssociations() {
   //   this.spaces = [];
   //   for (const program of this.programs) {
@@ -214,7 +222,7 @@ export class Program {
   spaces: Space[] = [];
 
   name: string = "";
-  typicalArea: number = 100;
+  area: number = 100;
   targetQuantity: number = 1;
 
   autoManageGenericSpaces: boolean = true;
@@ -238,47 +246,93 @@ export class Program {
     return "not yet implemented";
   }
 
-  setDepartment(departmentId: string): void {
-    let departments: Department[];
+  setDepartment(departmentId: string | undefined): void {
+    function removeProgramFromDepartment(
+      department: Department,
+      thisProgram: Program
+    ) {
+      department.programs.filter((program) => {
+        if (program.uuid == thisProgram.uuid) {
+          department.modified();
+          return false;
+        } else {
+          return true;
+        }
+      });
+    }
+
+    if (departmentId == undefined) {
+      if (this.department != undefined) {
+        removeProgramFromDepartment(this.department, this);
+        this.department = undefined;
+        this.modified();
+      }
+      return;
+    }
+
     const store = useProgramElementStore();
     const queryResults = store.queryDepartmentsByIds(departmentId);
 
     if (queryResults == undefined) {
       return;
-    } else {
-      departments = queryResults;
     }
 
-    if (this.department != departments[0]) {
-      this.department = departments[0];
-      this.modifiedAt = new Date();
+    if (this.department != queryResults[0]) {
+      if (this.department != undefined) {
+        removeProgramFromDepartment(this.department, this);
+      }
+      this.department = queryResults[0];
+      this.modified();
     }
 
-    if (!departments[0].programs.includes(this)) {
-      departments[0].programs.push(this);
-      departments[0].modifiedAt = new Date();
+    if (!queryResults[0].programs.includes(this)) {
+      queryResults[0].programs.push(this);
+      queryResults[0].modified();
     }
   }
 
-  setProgramType(programTypeId: string): void {
-    let programTypes: ProgramType[];
+  setProgramType(programTypeId: string | undefined): void {
+    function removeProgramFromProgramType(
+      programType: ProgramType,
+      thisProgram: Program
+    ) {
+      programType.programs.filter((program) => {
+        if (program.uuid == thisProgram.uuid) {
+          programType.modified();
+          return false;
+        } else {
+          return true;
+        }
+      });
+    }
+
+    if (programTypeId == undefined) {
+      if (this.programType != undefined) {
+        removeProgramFromProgramType(this.programType, this);
+        this.programType = undefined;
+        this.modified();
+      }
+      return;
+    }
+
     const store = useProgramElementStore();
     const queryResults = store.queryProgramTypesByIds(programTypeId);
 
     if (queryResults == undefined) {
       return;
-    } else {
-      programTypes = queryResults;
     }
 
-    if (this.programType != programTypes[0]) {
-      this.programType = programTypes[0];
-      this.modifiedAt = new Date();
+    if (this.programType != queryResults[0]) {
+      if (this.programType != undefined) {
+        removeProgramFromProgramType(this.programType, this);
+      }
+      this.programType = queryResults[0];
+      this.modified();
     }
 
-    if (!programTypes[0].programs.includes(this)) {
-      programTypes[0].programs.push(this);
-      programTypes[0].modifiedAt = new Date();
+    if (!queryResults[0].programs.includes(this)) {
+      queryResults[0].programs.push(this);
+      this.modified();
     }
   }
 
@@ -308,6 +362,10 @@ export class Program {
     if (modified) {
       this.modifiedAt = new Date();
     }
+  }
+
+  modified(): void {
+    this.modifiedAt = new Date();
   }
 }
 
@@ -380,5 +438,9 @@ export class Space {
       programs[0].spaces.push(this);
       programs[0].modifiedAt = new Date();
     }
+  }
+
+  modified(): void {
+    this.modifiedAt = new Date();
   }
 }

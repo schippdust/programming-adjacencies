@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 
-import { useUiStateStore } from "@/stores/uiState.store";
+import { useUiStateStore } from "@/stores/uiStateStore";
 
 import BuildDepartments from "@/components/BuildingProgram/BuildDepartments.vue";
 import BuildPrograms from "@/components/BuildingProgram/BuildPrograms.vue";

@@ -13,8 +13,6 @@ import * as directives from "vuetify/directives";
 
 const vuetify = createVuetify({ components, directives });
 
-import "./assets/main.css";
-
 const app = createApp(App);
 app.use(vuetify);
 app.use(createPinia());

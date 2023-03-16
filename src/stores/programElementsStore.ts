@@ -6,7 +6,7 @@ import {
   Program,
   Space,
   ProgramElement,
-} from "../models/programElements.model";
+} from "../models/programElements";
 
 interface ProgramElementStoreRootState {
   departments: Department[];
@@ -26,20 +26,40 @@ export const useProgramElementStore = defineStore({
       spaces: [],
     } as ProgramElementStoreRootState),
 
-  actions: {
-    getAllDepartments(): Array<Department> {
-      return this.departments;
+  getters: {
+    getAllDepartments(state): Array<Department> {
+      return state.departments;
     },
-    getAllProgramTypes(): Array<ProgramType> {
-      return this.programTypes;
+    getAllProgramTypes(state): Array<ProgramType> {
+      return state.programTypes;
     },
-    getAllPrograms(): Array<Program> {
-      return this.programs;
+    getAllPrograms(state): Array<Program> {
+      return state.programs;
     },
-    getAllSpaces(): Array<Space> {
-      return this.spaces;
+    getAllSpaces(state): Array<Space> {
+      return state.spaces;
     },
+    getProgramAsJson(state): string {
+      interface SaveState {
+        departments: Department[];
+        programTypes: ProgramType[];
+        programs: Program[];
+        spaces: Space[];
+      }
+      const saveState: SaveState = {
+        departments: state.departments,
+        programTypes: state.programTypes,
+        programs: state.programs,
+        spaces: state.spaces,
+      };
+      return JSON.stringify(saveState);
+    },
+  },
 
+  actions: {
+    readJson(json: string) {
+      console.log(json);
+    },
     setElementColor(
       uuid: string,
       color: string,
@@ -48,10 +68,12 @@ export const useProgramElementStore = defineStore({
       if (elementType == ProgramElement.Department) {
         this.queryDepartmentsByIds(uuid)?.forEach((department) => {
           department.colorHex = color;
+          department.modified();
         });
       } else if (elementType == ProgramElement.ProgramType) {
         this.queryProgramTypesByIds(uuid)?.forEach((programType) => {
           programType.colorHex = color;
+          programType.modified();
         });
       }
     },
@@ -63,16 +85,56 @@ export const useProgramElementStore = defineStore({
       if (elementType == ProgramElement.Department) {
         this.queryDepartmentsByIds(uuid)?.forEach((department) => {
           department.name = name;
+          department.modified();
         });
       } else if (elementType == ProgramElement.ProgramType) {
         this.queryProgramTypesByIds(uuid)?.forEach((programType) => {
           programType.name = name;
+          programType.modified();
         });
       } else if (elementType == ProgramElement.Program) {
         this.queryProgramsByIds(uuid)?.forEach((program) => {
           program.name = name;
+          program.modified();
         });
       }
+    },
+    setElementArea(
+      uuid: string,
+      area: number,
+      elementType: ProgramElement
+    ): void {
+      if (elementType == ProgramElement.Program) {
+        this.queryProgramsByIds(uuid)?.forEach((program) => {
+          program.area = area;
+          program.modified();
+        });
+      }
+    },
+    setElementQuantity(
+      uuid: string,
+      quantity: number,
+      elementType: ProgramElement
+    ): void {
+      if (elementType == ProgramElement.Program) {
+        this.queryProgramsByIds(uuid)?.forEach((program) => {
+          program.targetQuantity = quantity;
+          program.modified();
+        });
+      }
+    },
+    setProgramAssociation(
+      uuid: string,
+      otherUuid: string | undefined,
+      associatedElementType: ProgramElement
+    ): void {
+      this.queryProgramsByIds(uuid)?.forEach((program) => {
+        if (associatedElementType == ProgramElement.ProgramType) {
+          program.setProgramType(otherUuid);
+        } else if (associatedElementType == ProgramElement.Department) {
+          program.setDepartment(otherUuid);
+        }
+      });
     },
     createNewProgramElements(
       typeOfElement: ProgramElement,

@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 
-import { useUiStateStore } from "@/stores/uiState.store";
+import { useUiStateStore } from "@/stores/uiStateStore";
 
 import {
   useWindowWidth,

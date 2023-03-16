@@ -1,6 +1,6 @@
 import throttle from "lodash.throttle";
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { mainAppBarId, mainDrawerId } from "../stores/uiState.store";
+import { mainAppBarId, mainDrawerId } from "../stores/uiStateStore";
 
 const throttleMs = 100;
 

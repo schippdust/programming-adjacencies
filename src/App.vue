@@ -3,7 +3,7 @@ import { RouterView } from "vue-router";
 import NavigationDrawer from "./components/Navigation/NavigationDrawer.vue";
 import MainAppBar from "./components/Navigation/MainAppBar.vue";
 
-import { useUiStateStore } from "@/stores/uiState.store";
+import { useUiStateStore } from "@/stores/uiStateStore";
 const uiState = useUiStateStore();
 </script>
 
