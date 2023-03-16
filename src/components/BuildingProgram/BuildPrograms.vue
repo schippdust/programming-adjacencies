@@ -29,6 +29,17 @@ function setProgramArea(program: Program, area: string) {
   }
 }
 
+function setTargetQuantity(program: Program, quantity: string) {
+  const targetQuantity = Number(quantity);
+  if (targetQuantity != undefined) {
+    programElementStore.setElementQuantity(
+      program.uuid,
+      targetQuantity,
+      ProgramElement.Program
+    );
+  }
+}
+
 // setProgram
 </script>
 <template>
@@ -120,7 +131,14 @@ function setProgramArea(program: Program, area: string) {
                   />
                 </td>
                 <td :id="`4-${program.uuid}`" class="program-table-cell">
-                  {{ program.targetQuantity }}
+                  <v-text-field
+                    class="mt-n3 mb-n5 ml-1"
+                    variant="plain"
+                    density="compact"
+                    type="number"
+                    :model-value="program.targetQuantity"
+                    @update:model-value="setTargetQuantity(program, $event)"
+                  />
                 </td>
                 <td :id="`5-${program.uuid}`" class="program-table-cell">
                   {{ program.targetQuantity * program.area }}
