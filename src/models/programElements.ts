@@ -251,7 +251,7 @@ export class Program {
       department: Department,
       thisProgram: Program
     ) {
-      department.programs.filter((program) => {
+      department.programs = department.programs.filter((program) => {
         if (program.uuid == thisProgram.uuid) {
           department.modified();
           return false;
@@ -296,7 +296,7 @@ export class Program {
       programType: ProgramType,
       thisProgram: Program
     ) {
-      programType.programs.filter((program) => {
+      programType.programs = programType.programs.filter((program) => {
         if (program.uuid == thisProgram.uuid) {
           programType.modified();
           return false;

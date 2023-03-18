@@ -30,6 +30,9 @@ export const useProgramElementStore = defineStore({
     getAllDepartments(state): Array<Department> {
       return state.departments;
     },
+    getAllDepartmentNames(state): Array<string> {
+      return state.departments.map((dept) => dept.name);
+    },
     getAllProgramTypes(state): Array<ProgramType> {
       return state.programTypes;
     },
@@ -39,21 +42,24 @@ export const useProgramElementStore = defineStore({
     getAllSpaces(state): Array<Space> {
       return state.spaces;
     },
-    getProgramAsJson(state): string {
-      interface SaveState {
-        departments: Department[];
-        programTypes: ProgramType[];
-        programs: Program[];
-        spaces: Space[];
-      }
-      const saveState: SaveState = {
-        departments: state.departments,
-        programTypes: state.programTypes,
-        programs: state.programs,
-        spaces: state.spaces,
-      };
-      return JSON.stringify(saveState);
-    },
+    //THE LOGIC BELOW WAS SOMEHOW CAUSING AN ERROR?
+    //I GUESS BECAUSE ITS A GETTER AND IT RUNS EVERY TIME AN UPDATE IS MADE
+    //TRY HANDLING THIS WITH AN ACTION INSTEAD
+    // getProgramAsJson(state): string {
+    //   interface SaveState {
+    //     departments: Department[];
+    //     programTypes: ProgramType[];
+    //     programs: Program[];
+    //     spaces: Space[];
+    //   }
+    //   const saveState: SaveState = {
+    //     departments: state.departments,
+    //     programTypes: state.programTypes,
+    //     programs: state.programs,
+    //     spaces: state.spaces,
+    //   };
+    //   return JSON.stringify(saveState);
+    // },
   },
 
   actions: {

@@ -13,21 +13,29 @@ function getProgramCount(programType: ProgramType): number {
 }
 
 function getSpaceCount(programType: ProgramType): number {
-  let spaceCount = 0;
+  // let spaceCount = 0;
+  // programType.programs.forEach((program) => {
+  //   spaceCount += program.spaces.length;
+  // });
+  let quantity = 0;
   programType.programs.forEach((program) => {
-    spaceCount += program.spaces.length;
+    quantity += program.targetQuantity;
   });
-  return spaceCount;
+  return quantity;
 }
 
 function getSpaceArea(programType: ProgramType): number {
-  let spaceArea = 0;
+  // let spaceArea = 0;
+  // programType.programs.forEach((program) => {
+  //   program.spaces.forEach((space) => {
+  //     spaceArea += space.area;
+  //   });
+  // });
+  let totalArea = 0;
   programType.programs.forEach((program) => {
-    program.spaces.forEach((space) => {
-      spaceArea += space.area;
-    });
+    totalArea += program.targetQuantity * program.area;
   });
-  return spaceArea;
+  return totalArea;
 }
 
 function consoleLog(something: any) {

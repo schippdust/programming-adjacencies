@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import type { Ref, ComputedRef } from "vue";
 import { storeToRefs } from "pinia";
 import { useProgramElementStore } from "@/stores/programElementsStore";
 import { Program, ProgramElement } from "@/models/programElements";
 
 const programElementStore = useProgramElementStore();
-const { programs } = storeToRefs(programElementStore);
+const { programs, departments, programTypes } =
+  storeToRefs(programElementStore);
 
 function createNewProgram() {
   programElementStore.createNewProgramElements(ProgramElement.Program, 1);
@@ -38,6 +41,54 @@ function setTargetQuantity(program: Program, quantity: string) {
       ProgramElement.Program
     );
   }
+}
+
+interface VComboboxKeyValObject {
+  title: string;
+  value: string | undefined;
+}
+
+const departmentComboBoxItems: ComputedRef<VComboboxKeyValObject[]> = computed(
+  () => {
+    let items: VComboboxKeyValObject[] = [];
+    items.push({ title: "", value: undefined });
+    departments.value.forEach((dept) => {
+      items.push({ title: dept.name, value: dept.uuid });
+    });
+    return items;
+  }
+);
+
+const programTypesComboBoxItems: ComputedRef<VComboboxKeyValObject[]> =
+  computed(() => {
+    let items: VComboboxKeyValObject[] = [];
+    items.push({ title: "", value: undefined });
+    programTypes.value.forEach((ptype) => {
+      items.push({ title: ptype.name, value: ptype.uuid });
+    });
+    return items;
+  });
+
+function setDepartment(program: Program, event: any) {
+  let departmentuuid: string | undefined = event.value
+    ? String(event.value)
+    : undefined;
+  programElementStore.setProgramAssociation(
+    program.uuid,
+    departmentuuid,
+    ProgramElement.Department
+  );
+}
+
+function setProgramType(program: Program, event: any) {
+  let programtypeuuid: string | undefined = event.value
+    ? String(event.value)
+    : undefined;
+  programElementStore.setProgramAssociation(
+    program.uuid,
+    programtypeuuid,
+    ProgramElement.ProgramType
+  );
 }
 
 // setProgram
@@ -115,10 +166,32 @@ function setTargetQuantity(program: Program, quantity: string) {
                   />
                 </td>
                 <td :id="`1-${program.uuid}`" class="program-table-cell">
-                  {{ program.programType ? program.programType.name : "" }}
+                  <v-combobox
+                    class="mt-n3 mb-n5 ml-1"
+                    :model-value="
+                      program.department ? program.department.name : ''
+                    "
+                    :items="departmentComboBoxItems"
+                    variant="plain"
+                    density="compact"
+                    @update:model-value="
+                      ($event) => setDepartment(program, $event)
+                    "
+                  />
                 </td>
                 <td :id="`2-${program.uuid}`" class="program-table-cell">
-                  {{ program.department ? program.department.name : "" }}
+                  <v-combobox
+                    class="mt-n3 mb-n5 ml-1"
+                    :model-value="
+                      program.programType ? program.programType.name : ''
+                    "
+                    :items="programTypesComboBoxItems"
+                    variant="plain"
+                    density="compact"
+                    @update:model-value="
+                      ($event) => setProgramType(program, $event)
+                    "
+                  />
                 </td>
                 <td :id="`3-${program.uuid}`" class="program-table-cell">
                   <v-text-field
@@ -146,6 +219,7 @@ function setTargetQuantity(program: Program, quantity: string) {
                 <td
                   :id="`5-${program.uuid}`"
                   class="program-table-borderless-cell"
+                  :items="['']"
                 >
                   <v-btn size="xsmall" variant="plain"
                     ><v-icon>mdi-chevron-down</v-icon></v-btn

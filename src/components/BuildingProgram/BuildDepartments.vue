@@ -17,21 +17,29 @@ function getProgramCount(department: Department): number {
 }
 
 function getSpaceCount(department: Department): number {
-  let spaceCount = 0;
+  // let spaceCount = 0;
+  // department.programs.forEach((program) => {
+  //   spaceCount += program.spaces.length;
+  // });
+  let totalQuantity = 0;
   department.programs.forEach((program) => {
-    spaceCount += program.spaces.length;
+    totalQuantity += program.targetQuantity;
   });
-  return spaceCount;
+  return totalQuantity;
 }
 
 function getSpaceArea(department: Department): number {
-  let spaceArea = 0;
+  // let spaceArea = 0;
+  // department.programs.forEach((program) => {
+  //   program.spaces.forEach((space) => {
+  //     spaceArea += space.area;
+  //   });
+  // });
+  let totalArea = 0;
   department.programs.forEach((program) => {
-    program.spaces.forEach((space) => {
-      spaceArea += space.area;
-    });
+    totalArea += program.area * program.targetQuantity;
   });
-  return spaceArea;
+  return totalArea;
 }
 
 function consoleLog(something: any) {
