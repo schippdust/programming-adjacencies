@@ -178,10 +178,18 @@ function setProgramType(program: Program, event: any) {
                       ($event) => setDepartment(program, $event)
                     "
                   />
+                  <div
+                    style="height: 3px"
+                    :style="{
+                      backgroundColor: program.department
+                        ? program.department.colorHex
+                        : undefined,
+                    }"
+                  />
                 </td>
                 <td :id="`2-${program.uuid}`" class="program-table-cell">
                   <v-combobox
-                    class="mt-n3 mb-n5 ml-1"
+                    class="mt-n3 mb-n5 ml-1 block"
                     :model-value="
                       program.programType ? program.programType.name : ''
                     "
@@ -191,6 +199,15 @@ function setProgramType(program: Program, event: any) {
                     @update:model-value="
                       ($event) => setProgramType(program, $event)
                     "
+                  >
+                  </v-combobox>
+                  <div
+                    style="height: 3px"
+                    :style="{
+                      backgroundColor: program.programType
+                        ? program.programType.colorHex
+                        : undefined,
+                    }"
                   />
                 </td>
                 <td :id="`3-${program.uuid}`" class="program-table-cell">
@@ -247,6 +264,8 @@ function setProgramType(program: Program, event: any) {
 <style scoped>
 .program-data-table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px 8px;
 }
 .program-table-cell {
   border: 1px solid black;
