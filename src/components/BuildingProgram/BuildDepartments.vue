@@ -2,10 +2,10 @@
 import { storeToRefs } from "pinia";
 
 import { useProgramElementStore } from "@/stores/programElementsStore";
-
 import { Department, ProgramElement } from "@/models/programElements";
 
 const programElementStore = useProgramElementStore();
+
 const { departments } = storeToRefs(programElementStore);
 
 function getTypeCount(department: Department): number {
