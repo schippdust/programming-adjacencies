@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { useIoStore } from '@/stores/ioStore';
+import { useIoStore } from "@/stores/ioStore";
+import { saveAs } from "file-saver";
 const ioStore = useIoStore();
 
 function saveStateAsJson() {
   console.log("trying to save state");
-  console.log(ioStore.getSaveDataAsJson());
+  let saveData = ioStore.getSaveDataAsJson();
+  let blob = new Blob([saveData], { type: "application/json" });
+  saveAs(blob, "test save.json");
 }
 </script>
 

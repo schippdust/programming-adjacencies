@@ -8,14 +8,17 @@ import {
   ProgramElement,
 } from "../models/programElements";
 
-
+interface testJson {
+  test: string;
+}
 
 export const useIoStore = defineStore({
   id: "ioStore",
   state: () => ({}),
   actions: {
     getSaveDataAsJson(): string {
-      return "returning data as json";
+      const test: testJson = { test: "some data" };
+      return JSON.stringify(test);
     },
   },
 });

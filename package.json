@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@mdi/font": "^7.1.96",
+    "@types/file-saver": "^2.0.5",
+    "file-saver": "^2.0.5",
     "lodash.throttle": "^4.1.1",
     "pinia": "^2.0.28",
     "uuid": "^9.0.0",
@@ -21,9 +23,9 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
+    "@types/lodash.throttle": "^4.1.7",
     "@types/node": "^18.11.12",
     "@types/uuid": "^9.0.0",
-    "@types/lodash.throttle": "^4.1.7",
     "@vitejs/plugin-vue": "^4.0.0",
     "@volar-plugins/vetur": "latest",
     "@vue/eslint-config-prettier": "^7.0.0",
