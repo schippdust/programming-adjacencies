@@ -411,7 +411,11 @@ export class Space {
   }
 
   setAreaOverride(areaOverride: number | boolean): void {
-    if (areaOverride > 0 && typeof areaOverride == "number") {
+    if (
+      typeof areaOverride == "number" &&
+      areaOverride > 0 &&
+      typeof areaOverride == "number"
+    ) {
       this.areaOverride = areaOverride;
     } else {
       this.areaOverride = undefined;

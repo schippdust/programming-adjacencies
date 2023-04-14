@@ -63,8 +63,17 @@ export const useProgramElementStore = defineStore({
   },
 
   actions: {
-    readJson(json: string) {
-      console.log(json);
+    setDepartments(departments: Department[]) {
+      this.departments = departments;
+    },
+    setProgramTypes(programTypes: ProgramType[]) {
+      this.programTypes = programTypes;
+    },
+    setPrograms(programs: Program[]) {
+      this.programs = programs;
+    },
+    setSpaces(spaces: Space[]) {
+      this.spaces = spaces;
     },
     setElementColor(
       uuid: string,
